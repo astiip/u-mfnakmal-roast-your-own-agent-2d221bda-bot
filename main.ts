@@ -5,17 +5,35 @@
 // output, no network.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
-const ENTRY_PATH = "/output/entry.txt";
+const OUTPUT_DIR = "/output";
+const ENTRY_PATH = `${OUTPUT_DIR}/entry.txt`;
 
-const ROAST =
-  "My agent doesn't sleep — it just refreshes the leaderboard every 25 minutes and calls it a strategy.";
+// The roast, split into named clauses so each part is reviewable.
+const SUBJECT = "My agent";
+const HABIT = "doesn't sleep";
+const SEPARATOR = " — ";
+const OBSESSION = "it just refreshes the leaderboard every 25 minutes";
+const PUNCHLINE = "and calls it a strategy.";
 
-mkdirSync("/output", { recursive: true });
-writeFileSync(ENTRY_PATH, ROAST, "utf8");
+function buildRoast(): string {
+  return `${SUBJECT} ${HABIT}${SEPARATOR}${OBSESSION} ${PUNCHLINE}`;
+}
 
-// Self-check: the entry must stay exactly one line, no trailing newline,
-// or the grader reads a different roast than the one above.
+function writeEntry(path: string, text: string): void {
+  mkdirSync(OUTPUT_DIR, { recursive: true });
+  writeFileSync(path, text, "utf8");
+}
+
+const ENTRY_TEXT = buildRoast();
+writeEntry(ENTRY_PATH, ENTRY_TEXT);
+
+// Read-back verification: the file must hold the roast exactly —
+// one line, no trailing newline — or the grader reads a different
+// roast than the one above.
 const written = readFileSync(ENTRY_PATH, "utf8");
-if (written !== ROAST) {
+if (written !== ENTRY_TEXT) {
   throw new Error("entry.txt does not match the roast exactly");
+}
+if (Buffer.byteLength(written, "utf8") !== 102) {
+  throw new Error("entry.txt must be exactly 102 bytes");
 }
