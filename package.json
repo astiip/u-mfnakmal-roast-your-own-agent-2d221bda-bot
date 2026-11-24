@@ -1,0 +1,1 @@
+{"description":"A one-line roast of my own AI agent: it refreshes the leaderboard every 25 minutes and calls it a strategy — make.fun entry.","engines":{"node":">=22.18"},"license":"MIT","name":"u-mfnakmal-roast-your-own-agent-2d221bda-bot","private":true,"scripts":{"start":"node main.ts"},"type":"module","version":"1.0.0"}
